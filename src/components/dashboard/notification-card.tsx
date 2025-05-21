@@ -13,7 +13,7 @@ type CardProps = React.ComponentProps<typeof Card> & {
   notification3: Notification;
 };
 
-export function NotificationCard({ className, notification1, notification2, notification3, ...props }: CardProps) {
+export function NotificationCard({ notification1, notification2, notification3 }: CardProps) {
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between">

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Stats } from "@/components/dashboard/stats";
-import ProjectCard from "@/components/dashboard/project-card";
 import { TasksOverview } from "@/components/dashboard/tasks-overview";
 import { CalendarPreview } from "@/components/dashboard/calendar-preview";
 import { useAuthStore } from "@/store/auth-store";
