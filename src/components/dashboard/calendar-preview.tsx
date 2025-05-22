@@ -5,6 +5,7 @@ import { useState, useEffect } from "react"
 import { useCalendarStore } from "@/store/calendar-store"
 import { CustomButton } from "@/components/shared/button"
 import { CustomCard } from "@/components/shared/card"
+import { CardContent } from "../ui/card"
 
 export function CalendarPreview() {
   const { events, loading } = useCalendarStore()
@@ -104,7 +105,11 @@ export function CalendarPreview() {
   }
 
   return (
-    <CustomCard showHeader={false} contentClassName="p-0" className="overflow-hidden h-full">
+    <CustomCard
+      showHeader={false}
+      contentClassName="p-0"
+      className="overflow-hidden h-full"
+    >
       <div className="px-3 sm:px-6 pt-4 sm:pt-6 pb-2 sm:pb-3 flex items-center justify-between">
         <CustomButton
           variant="ghost"
@@ -115,7 +120,9 @@ export function CalendarPreview() {
         />
 
         <div className="text-center">
-          <div className="text-base sm:text-lg font-semibold">{isToday(selectedDate) ? "Today" : weekday}</div>
+          <div className="text-base sm:text-lg font-semibold">
+            {isToday(selectedDate) ? "Today" : weekday}
+          </div>
           <div className="text-xs sm:text-sm text-muted-foreground flex items-center justify-center gap-1 sm:gap-2">
             {date}
             {!isToday(selectedDate) && (
@@ -152,9 +159,9 @@ export function CalendarPreview() {
         ) : (
           <div className="space-y-3 sm:space-y-4">
             {displayEvents.map((event: any) => (
-              <div key={event.id} className="flex gap-2 sm:gap-3">
+              <div key={event.id} className="flex gap-2 sm:gap-3 items-center p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
                 <div
-                  className="w-1 self-stretch rounded-full"
+                  className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full"
                   style={{ backgroundColor: getEventTypeColor(event.type) }}
                 />
                 <div className="flex-1">
@@ -164,11 +171,35 @@ export function CalendarPreview() {
                   </p>
                   {event.location && <p className="text-xs text-muted-foreground mt-1">📍 {event.location}</p>}
                 </div>
+                <CustomButton
+                  variant="ghost"
+                  size="sm"
+                  label="Details"
+                  className="text-xs sm:text-sm"
+                  onClick={() => alert(`Details for ${event.title}`)}
+                />
               </div>
             ))}
           </div>
         )}
       </div>
+
+      <CardContent className="grid gap-4">
+        <div className="flex items-center space-x-4 rounded-md border p-4">
+          <div className="flex-1 space-y-1">
+            <p className="text-xs text-muted-foreground">Due: May 25, 2025</p>
+            <p className="text-sm font-medium leading-none">Website Redesign</p>
+            <p className="text-sm text-muted-foreground">Revamp the company website </p>
+          </div>
+        </div>
+        <div className="flex items-center space-x-4 rounded-md border p-4">
+          <div className="flex-1 space-y-1">
+            <p className="text-xs text-muted-foreground">Due: May 30, 2025</p>
+            <p className="text-sm font-medium leading-none">Marketing Campaign</p>
+            <p className="text-sm text-muted-foreground">Launch a new social media marketing </p>
+          </div>
+        </div>
+      </CardContent>
     </CustomCard>
   )
 }

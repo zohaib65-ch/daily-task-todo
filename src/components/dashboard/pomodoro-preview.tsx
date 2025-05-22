@@ -1,4 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Play, Pause, RefreshCw } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
@@ -6,9 +12,12 @@ import { useTimerStore } from "@/store/timer-store";
 import { toast } from "sonner";
 
 export function PomodoroPreview() {
-  const { startTimer, pauseTimer, resetTimer, saveSession, timerSettings } = useTimerStore((state) => state);
+  const { startTimer, pauseTimer, resetTimer, saveSession, timerSettings } =
+    useTimerStore((state) => state);
 
-  const [timeLeft, setTimeLeft] = useState<number>(timerSettings?.focusTime || 25 * 60);
+  const [timeLeft, setTimeLeft] = useState<number>(
+    timerSettings?.focusTime || 25 * 60
+  );
   const [isActive, setIsActive] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
   const [completedFocuses, setCompletedFocuses] = useState(0);
@@ -34,6 +43,7 @@ export function PomodoroPreview() {
           if (prevTime <= 1) {
             if (intervalRef.current) clearInterval(intervalRef.current);
 
+            // Play sound
             if (audioRef.current) {
               audioRef.current.play().catch((e) => {
                 console.error("Error playing audio:", e);
@@ -41,7 +51,9 @@ export function PomodoroPreview() {
             }
 
             toast(isBreak ? "Break finished!" : "Focus session completed!", {
-              description: isBreak ? "Time to focus again!" : "Take a well-deserved break!",
+              description: isBreak
+                ? "Time to focus again!"
+                : "Take a well-deserved break!",
               duration: 5000,
             });
 
@@ -115,7 +127,9 @@ export function PomodoroPreview() {
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    return `${mins.toString().padStart(2, "0")}:${secs
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   const totalTime = isBreak
@@ -127,10 +141,10 @@ export function PomodoroPreview() {
   const progress = 100 - (timeLeft / totalTime) * 100;
 
   return (
-    <Card className="max-w-[320px] bg-gradient-to-br from-purple-900 to-blue-900 text-white rounded-xl shadow-lg">
+    <Card>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span>Focus Mode</span>
+          <span>Pomodoro Timer</span>
           <span
             className={`text-xs px-2 py-1 rounded-full ${
               isBreak
@@ -141,15 +155,17 @@ export function PomodoroPreview() {
             {isBreak ? "Break" : "Focus"}
           </span>
         </CardTitle>
-        <CardDescription className="text-gray-300">
-          {isBreak ? "Take a break and recharge" : "Lancer Session"}
+        <CardDescription>
+          {isBreak
+            ? "Take a break and recharge"
+            : "Stay focused on your current task"}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="relative flex justify-center items-center">
           <svg className="w-32 h-32" viewBox="0 0 100 100">
             <circle
-              className="text-gray-700 stroke-current"
+              className="text-muted stroke-current"
               strokeWidth="5"
               cx="50"
               cy="50"
@@ -157,7 +173,9 @@ export function PomodoroPreview() {
               fill="transparent"
             />
             <circle
-              className={`${isBreak ? "text-blue-500" : "text-blue-400"} stroke-current`}
+              className={`${
+                isBreak ? "text-blue-500" : "text-primary"
+              } stroke-current`}
               strokeWidth="5"
               strokeLinecap="round"
               cx="50"
@@ -169,23 +187,13 @@ export function PomodoroPreview() {
               transform="rotate(-90 50 50)"
             />
           </svg>
-          <div className="absolute text-4xl font-bold">{formatTime(timeLeft)}</div>
+          <div className="absolute text-2xl font-bold">
+            {formatTime(timeLeft)}
+          </div>
         </div>
 
-        <div className="flex justify-end gap-2">
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={handleResetTimer}
-            className="text-white border-white/30"
-          >
-            <RefreshCw className="h-4 w-4 mr-1" />
-          </Button>
-          <Button
-            size="sm"
-            onClick={toggleTimer}
-            className="bg-blue-500 hover:bg-blue-600 text-white"
-          >
+        <div className="flex justify-center gap-2">
+          <Button size="sm" variant="outline" onClick={toggleTimer}>
             {isActive ? (
               <Pause className="h-4 w-4 mr-1" />
             ) : (
@@ -193,11 +201,31 @@ export function PomodoroPreview() {
             )}
             {isActive ? "Pause" : "Start"}
           </Button>
+          <Button size="sm" variant="ghost" onClick={handleResetTimer}>
+            <RefreshCw className="h-4 w-4 mr-1" />
+            Reset
+          </Button>
         </div>
 
-        <div className="flex justify-between text-xs text-gray-300 mt-2">
+        <div className="flex justify-between text-xs text-muted-foreground mt-2">
           <div>Focus sessions: {completedFocuses}</div>
-          <div>{isBreak ? (completedFocuses % 4 === 0 ? "Long break" : "Short break") : "Focus time"}</div>
+          <div>
+            {isBreak
+              ? completedFocuses % 4 === 0
+                ? "Long break"
+                : "Short break"
+              : "Focus time"}
+          </div>
+        </div>
+      </CardContent>
+         <CardContent className="grid gap-4">
+        
+        <div className="flex items-center space-x-4 rounded-md border p-4">
+          <div className="flex-1 space-y-1">
+            <p className="text-xs text-muted-foreground">Due: May 30, 2025</p>
+            <p className="text-sm font-medium leading-none">Marketing Campaign</p>
+            <p className="text-sm text-muted-foreground">Launch a new social media marketing </p>
+          </div>
         </div>
       </CardContent>
     </Card>

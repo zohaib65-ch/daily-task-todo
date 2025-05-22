@@ -1,13 +1,5 @@
 import { NavLink } from "react-router-dom";
-import {
-  Home,
-  CheckSquare,
-  Calendar,
-  Clock,
-  Settings as SettingsIcon,
-  HelpCircle,
-  LogOut,
-} from "lucide-react";
+import { Home, CheckSquare, Calendar, Clock, Settings as SettingsIcon, HelpCircle, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/auth-store";
 
@@ -44,11 +36,9 @@ export function Sidebar() {
   ];
 
   return (
-    <aside className="hidden md:flex flex-col w-64 border-r border-border bg-card dark:bg-secondary">
+    <aside className="hidden lg:flex flex-col w-64 border-r border-border bg-card dark:bg-secondary">
       <div className="p-4 flex items-center gap-2">
-        <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold">
-          M
-        </div>
+        <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold">M</div>
         <span className="text-xl font-bold text-foreground">Minest</span>
       </div>
       <nav className="flex-1 px-2 py-4">
@@ -58,11 +48,7 @@ export function Sidebar() {
               <NavLink
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center text-sm gap-3 px-3 py-3 rounded-xl transition-colors ${
-                    isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "text-foreground hover:bg-secondary"
-                  }`
+                  `flex items-center text-sm gap-3 px-3 py-3 rounded-xl transition-colors ${isActive ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-secondary"}`
                 }
               >
                 {item.icon}
@@ -73,11 +59,7 @@ export function Sidebar() {
         </ul>
       </nav>
       <div className="p-4 mt-auto">
-        <Button
-          variant="outline"
-          className="w-full flex items-center gap-2"
-          onClick={() => logout()}
-        >
+        <Button variant="outline" className="w-full flex items-center gap-2" onClick={() => logout()}>
           <LogOut className="h-4 w-4" />
           <span>Logout</span>
         </Button>

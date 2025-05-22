@@ -12,6 +12,9 @@ import { NotificationCard } from "@/components/dashboard/notification-card";
 import TodoList from "@/components/ui/todo-list";
 import { PomodoroTimer } from "@/components/dashboard/pomodoro-timer";
 import ProjectCardList from "@/components/dashboard/project-card";
+import { PomodoroPreview } from "@/components/dashboard/pomodoro-preview";
+import { DailyPriorities } from "@/components/dashboard/daily-priorities";
+import MoodCheck from "@/components/dashboard/mood-check";
 
 export function DashboardPage() {
   const { user } = useAuthStore();
@@ -64,15 +67,23 @@ export function DashboardPage() {
         <p className="text-muted-foreground">Here's an overview of your productivity today.</p>
       </div>
       <Stats />
-      <div className="grid w-full grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3 lg:gap-8">
-        <PomodoroTimer />
+      <div className="flex flex-col md:flex-row justify-between gap-4 ">
+        <div className="w-full md:w-1/2">
+          <DailyPriorities />
+        </div>
+        <div className="w-full md:w-1/2">
+          <MoodCheck />
+        </div>
+      </div>
+      <div className="grid w-full grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3  lg:gap-8">
+        <PomodoroPreview />
         <CalendarPreview />
         <TodoList />
       </div>
-      <div className="grid w-full grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3 lg:gap-8">
+      <div className="grid w-full grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:gap-8">
         <div className="grid grid-cols-1  sm:gap-6 md:grid-cols-1 lg:gap-8">
           <Calendar mode="single" selected={date} onSelect={setDate} className="rounded-md border shadow w-full h-full" />
-           <TasksOverview />
+          <TasksOverview />
         </div>
 
         <NotificationCard
@@ -93,30 +104,26 @@ export function DashboardPage() {
             description: "Weekly updates",
           }}
         />
+        <NotificationCard
+          notification1={{
+            time: "Apr 4, 2025",
+            title: "PRÉPARATION LANCEMENT PROJET W",
+            description: "Entrer dans sa phase de structuration stratégique. Définir l’offre, le positionnement...",
+          }}
+          notification2={{
+            time: "Apr 12, 2025",
+            title: "RECRUTEMENT DIGITALY",
+            description: "Rechercher profils passionnés, créatifs et engagés. Les premières entretiens débuteront...",
+          }}
+          notification3={{
+            time: "Apr 25, 2025",
+            title: "PROCESS SUIVI CLIENT",
+            description: "Analyse chaque étape du parcours client actuel. Objectif définir et optimiser standard qualité...",
+          }}
+        />
         <ProjectCardList className="rounded-md border shadow w-full h-full" />
       </div>
-
-  
-        <div >
-          <NotificationCard
-            notification1={{
-              time: "Apr 4, 2025",
-              title: "PRÉPARATION LANCEMENT PROJET W",
-              description: "Entrer dans sa phase de structuration stratégique. Définir l’offre, le positionnement...",
-            }}
-            notification2={{
-              time: "Apr 12, 2025",
-              title: "RECRUTEMENT DIGITALY",
-              description: "Rechercher profils passionnés, créatifs et engagés. Les premières entretiens débuteront...",
-            }}
-            notification3={{
-              time: "Apr 25, 2025",
-              title: "PROCESS SUIVI CLIENT",
-              description: "Analyse chaque étape du parcours client actuel. Objectif définir et optimiser standard qualité...",
-            }}
-          />
-
-      </div>
+      
     </div>
   );
 }

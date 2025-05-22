@@ -3,24 +3,9 @@ import { Link } from "react-router-dom";
 import { useAuthStore } from "@/store/auth-store";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Menu,
-  MoonIcon,
-  SunIcon,
-  LogOut,
-  Settings,
-  User as UserIcon,
-  BellIcon,
-} from "lucide-react";
+import { Menu, MoonIcon, SunIcon, LogOut, Settings, User as UserIcon, BellIcon } from "lucide-react";
 
 export function Navbar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -37,22 +22,13 @@ export function Navbar() {
     <header className="sticky top-0 z-30 border-b bg-card dark:bg-secondary backdrop-blur">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
         <div className="flex items-center gap-2 md:gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
-            onClick={toggleSidebar}
-          >
+          <Button variant="ghost" size="icon" className="lg:hidden" onClick={toggleSidebar}>
             <Menu className="h-6 w-6" />
             <span className="sr-only">Toggle menu</span>
           </Button>
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold">
-              M
-            </div>
-            <span className="hidden md:inline-block text-xl font-bold">
-              Minest
-            </span>
+            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold">M</div>
+            <span className="hidden md:inline-block text-xl font-bold">Minest</span>
           </Link>
         </div>
         <div className="flex items-center gap-2">
@@ -64,24 +40,14 @@ export function Navbar() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
-                {theme === "dark" ? (
-                  <MoonIcon className="h-5 w-5" />
-                ) : (
-                  <SunIcon className="h-5 w-5" />
-                )}
+                {theme === "dark" ? <MoonIcon className="h-5 w-5" /> : <SunIcon className="h-5 w-5" />}
                 <span className="sr-only">Toggle theme</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setTheme("light")}>
-                Light
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("dark")}>
-                Dark
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("system")}>
-                System
-              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <DropdownMenu>
@@ -95,9 +61,7 @@ export function Navbar() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>{user?.firstName}</DropdownMenuLabel>
-              <DropdownMenuItem className="text-muted-foreground">
-                {user?.email}
-              </DropdownMenuItem>
+              <DropdownMenuItem className="text-muted-foreground">{user?.email}</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <UserIcon className="mr-2 h-4 w-4" />

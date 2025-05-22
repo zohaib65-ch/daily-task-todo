@@ -1,65 +1,96 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import * as Progress from "@radix-ui/react-progress";
+import React from "react";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { MoreHorizontal } from "lucide-react";
-import { Progress } from "../ui/react-progress";
+import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 
-// Define the props type for ProjectCard
-interface ProjectCardProps {
-  title: string;
-  status: "En cours" | "Planifiée";
-  deadline: string;
-  progress: number;
-  members: string[];
-  bgColor: string;
-  className?: string; // Added to accept external className
-}
+export function ProjectCardList() {
+  const [progress1, setProgress1] = React.useState(13);
+  const [progress2, setProgress2] = React.useState(40);
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ title, status, deadline, progress, members, bgColor, className }) => {
+  React.useEffect(() => {
+    const timer1 = setTimeout(() => setProgress1(66), 500);
+    const timer2 = setTimeout(() => setProgress2(80), 500);
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, []);
+
   return (
-    <Card className={`text-white rounded-xl shadow-lg ${bgColor} ${className}`}>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        <Badge className={`text-xs ${status === "En cours" ? "bg-gray-300 text-black" : "bg-purple-300 text-white"}`}>{status}</Badge>
-      </CardHeader>
-      <CardContent>
-        <CardDescription className="text-white text-xs mb-2">Échéance: {deadline}</CardDescription>
-        <div className="mb-2">
-          <span className="text-xs text-white">Progression</span>
-          <div className="flex items-center gap-2">
-            <Progress value={progress} className="mt-1 h-2 bg-white/30" />
-            <span className="text-xs text-white">{progress}%</span>
+    <div>
+      <Card className="w-full  border-2 rounded-lg shadow-lg mb-12">
+        <CardHeader className="p-6">
+          <div className="flex justify-between items-center">
+            <CardTitle>Create project</CardTitle>
+            <Badge>Active</Badge>
           </div>
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="flex -space-x-2">
-            {members.map((member, index) => (
-              <Avatar key={index} className="h-6 w-6 border-2 border-white">
-                <AvatarFallback className="bg-white text-black">{member}</AvatarFallback>
-              </Avatar>
-            ))}
+          <CardDescription>Deploy your new project in one-click.</CardDescription>
+        </CardHeader>
+        <CardContent className="p-3">
+          <form>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5 mb-2">
+                <Label htmlFor="name">Progression</Label>
+              </div>
+            </div>
+          </form>
+          <Progress.Root className="relative h-2 w-full overflow-hidden rounded-full bg-gray-200" value={progress1}>
+            <Progress.Indicator className="h-full w-full bg-blue-500 transition-all" style={{ transform: `translateX(-${100 - progress1}%)` }} />
+          </Progress.Root>
+        </CardContent>
+        <CardFooter className="flex justify-start p-3">
+          <div className="flex -space-x-2.5">
+            <Avatar className="w-8 h-8 md:w-10 md:h-10 dark:bg-muted   flex items-center justify-center rounded-full">
+              <AvatarFallback>JD</AvatarFallback>
+            </Avatar>
+            <Avatar className="w-8 h-8 md:w-10 md:h-10 dark:bg-muted  flex items-center justify-center rounded-full">
+              <AvatarFallback>AB</AvatarFallback>
+            </Avatar>
+            <Avatar className="w-8 h-8 md:w-10 md:h-10 dark:bg-muted   flex items-center justify-center rounded-full">
+              <AvatarFallback>CD</AvatarFallback>
+            </Avatar>
           </div>
-          <MoreHorizontal className="h-4 w-4 text-white" />
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
+        </CardFooter>
+      </Card>
 
-interface ProjectCardListProps {
-  className?: string; // Added to accept external className
-}
-
-const ProjectCardList: React.FC<ProjectCardListProps> = ({ className }) => {
-  return (
-    <div className={`p-6 text-whiterounded-md border shadow h-full ${className}`}>
-      <h2 className="text-xl font-bold mb-4">Mes Projets</h2>
-      <div className="flex flex-col gap-4">
-        <ProjectCard title="Refonte du site web" status="En cours" deadline="20 Juin" progress={65} members={["JD", "AB", "CD"]} bgColor="bg-blue-500" className="w-full" />
-        <ProjectCard title="Application mobile" status="Planifiée" deadline="30 Juin" progress={10} members={["JD", "GH", "+2"]} bgColor="bg-purple-500" className="w-full" />
-      </div>
+      <Card className="w-full  border-2 rounded-lg shadow-lg">
+        <CardHeader className="p-6">
+          <div className="flex justify-between items-center">
+            <CardTitle>Update project</CardTitle>
+            <Badge>Pending</Badge>
+          </div>
+          <CardDescription>Update your project with ease.</CardDescription>
+        </CardHeader>
+        <CardContent className="p-3">
+          <form>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5 mb-2">
+                <Label htmlFor="name">Progression</Label>
+              </div>
+            </div>
+          </form>
+          <Progress.Root className="relative h-2 w-full overflow-hidden rounded-full bg-gray-200" value={progress2}>
+            <Progress.Indicator className="h-full w-full bg-blue-500 transition-all" style={{ transform: `translateX(-${100 - progress2}%)` }} />
+          </Progress.Root>
+        </CardContent>
+        <CardFooter className="flex justify-start p-3">
+          <div className="flex -space-x-2.5">
+            <Avatar className="w-8 h-8 md:w-10 md:h-10 dark:bg-muted   flex items-center justify-center rounded-full">
+              <AvatarFallback>JD</AvatarFallback>
+            </Avatar>
+            <Avatar className="w-8 h-8 md:w-10 md:h-10 dark:bg-muted   flex items-center justify-center rounded-full">
+              <AvatarFallback>AB</AvatarFallback>
+            </Avatar>
+            <Avatar className="w-8 h-8 md:w-10 md:h-10 dark:bg-muted   flex items-center justify-center rounded-full">
+              <AvatarFallback>CD</AvatarFallback>
+            </Avatar>
+          </div>
+        </CardFooter>
+      </Card>
     </div>
   );
-};
+}
 
 export default ProjectCardList;
