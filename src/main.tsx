@@ -11,7 +11,7 @@ const root = createRoot(document.getElementById("root")!);
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <ThemeProvider defaultTheme="system" storageKey="minest-theme">
+      <ThemeProvider defaultTheme="dark" storageKey="minest-theme">
         <App />
         <Toaster />
       </ThemeProvider>
