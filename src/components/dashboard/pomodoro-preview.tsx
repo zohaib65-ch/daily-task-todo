@@ -46,7 +46,7 @@ export function PomodoroPreview() {
             // Play sound
             if (audioRef.current) {
               audioRef.current.play().catch((e) => {
-                console.error("Error playing audio:", e);
+                toast.error("Error playing audio:", e);
               });
             }
 

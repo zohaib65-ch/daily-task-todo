@@ -1,13 +1,8 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, Circle, Clock, AlertTriangle } from "lucide-react";
 import { useTaskStore } from "@/store/task-store";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export function TasksOverview() {
   const { tasks, updateTask, loading } = useTaskStore();
@@ -15,15 +10,14 @@ export function TasksOverview() {
 
   const completedTasks = tasks?.filter((task) => task.completed).length || 0;
   const totalTasks = tasks?.length || 0;
-  const progress =
-    totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+  const progress = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
   const handleToggleTask = async (taskId: any, completed: any) => {
     setIsUpdating(true);
     try {
       await updateTask(taskId, { completed });
     } catch (error) {
-      console.error("Error updating task:", error);
+      toast.error("Error updating task:");
     } finally {
       setIsUpdating(false);
     }
@@ -49,8 +43,7 @@ export function TasksOverview() {
           weekday: "short",
           month: "short",
           day: "numeric",
-        }) +
-        `, ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
+        }) + `, ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
       );
     }
   };
@@ -112,10 +105,7 @@ export function TasksOverview() {
         </CardTitle>
         <CardDescription>
           <div className="w-full h-2 bg-muted rounded-full mt-1">
-            <div
-              className="h-2 bg-primary rounded-full transition-all duration-300"
-              style={{ width: `${progress}%` }}
-            />
+            <div className="h-2 bg-primary rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
           </div>
         </CardDescription>
       </CardHeader>
@@ -133,14 +123,8 @@ export function TasksOverview() {
             {sortedTasks.map((task) => (
               <div
                 key={task.id}
-                className={`flex items-center justify-between p-2 rounded-md ${
-                  isUpdating ? "opacity-70" : ""
-                } ${
-                  task.completed
-                    ? "bg-muted/50"
-                    : isOverdue(task.dueDate)
-                      ? "bg-red-50 dark:bg-red-950/20 hover:bg-red-100 dark:hover:bg-red-950/30"
-                      : "hover:bg-muted/30"
+                className={`flex items-center justify-between p-2 rounded-md ${isUpdating ? "opacity-70" : ""} ${
+                  task.completed ? "bg-muted/50" : isOverdue(task.dueDate) ? "bg-red-50 dark:bg-red-950/20 hover:bg-red-100 dark:hover:bg-red-950/30" : "hover:bg-muted/30"
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -149,41 +133,15 @@ export function TasksOverview() {
                     disabled={isUpdating}
                     className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-full"
                   >
-                    {task.completed ? (
-                      <CheckCircle2 className="h-5 w-5 text-primary" />
-                    ) : (
-                      <Circle className="h-5 w-5 text-muted-foreground" />
-                    )}
+                    {task.completed ? <CheckCircle2 className="h-5 w-5 text-primary" /> : <Circle className="h-5 w-5 text-muted-foreground" />}
                   </button>
                   <div>
-                    <span
-                      className={`${
-                        task.completed
-                          ? "line-through text-muted-foreground"
-                          : ""
-                      } ${task.priority === "high" && !task.completed ? "font-medium" : ""}`}
-                    >
-                      {task.title}
-                    </span>
-                    {task.priority === "high" && !task.completed && (
-                      <span className="ml-2 px-1.5 py-0.5 text-xs rounded-sm bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400">
-                        High
-                      </span>
-                    )}
+                    <span className={`${task.completed ? "line-through text-muted-foreground" : ""} ${task.priority === "high" && !task.completed ? "font-medium" : ""}`}>{task.title}</span>
+                    {task.priority === "high" && !task.completed && <span className="ml-2 px-1.5 py-0.5 text-xs rounded-sm bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400">High</span>}
                   </div>
                 </div>
-                <div
-                  className={`flex items-center text-xs ${
-                    isOverdue(task.dueDate) && !task.completed
-                      ? "text-red-600 dark:text-red-400"
-                      : "text-muted-foreground"
-                  }`}
-                >
-                  {isOverdue(task.dueDate) && !task.completed ? (
-                    <AlertTriangle className="h-3.5 w-3.5 mr-1" />
-                  ) : (
-                    <Clock className="h-3.5 w-3.5 mr-1" />
-                  )}
+                <div className={`flex items-center text-xs ${isOverdue(task.dueDate) && !task.completed ? "text-red-600 dark:text-red-400" : "text-muted-foreground"}`}>
+                  {isOverdue(task.dueDate) && !task.completed ? <AlertTriangle className="h-3.5 w-3.5 mr-1" /> : <Clock className="h-3.5 w-3.5 mr-1" />}
                   {formatDueDate(task.dueDate)}
                 </div>
               </div>

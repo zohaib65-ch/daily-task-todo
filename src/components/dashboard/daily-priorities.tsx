@@ -12,13 +12,12 @@ export function DailyPriorities() {
     { id: 2, text: "Prepare for project meeting" },
   ]);
   const [newPriority, setNewPriority] = useState<string>("");
-  const [isAdding, setIsAdding] = useState<boolean>(false);
 
   const addPriority = () => {
     if (newPriority.trim()) {
       setPriorities([...priorities, { id: priorities.length + 1, text: newPriority }]);
       setNewPriority("");
-      setIsAdding(false);
+    
     }
   };
 

@@ -2,20 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  EyeIcon,
-  EyeOffIcon,
-  UserPlus,
-  AlertCircle,
-  Mail,
-  User,
-} from "lucide-react";
+import { EyeIcon, EyeOffIcon, UserPlus, AlertCircle, Mail, User } from "lucide-react";
 import { useAuthStore } from "@/store/auth-store";
 import { CustomButton } from "@/components/shared/button";
 import { CustomInput } from "@/components/shared/InputField";
 import { CustomCard } from "@/components/shared/card";
 import { RegisterFormValues, registerSchema } from "./helper";
 import { PasswordStrengthMeter } from "./auth-helper";
+import { toast } from "sonner";
 
 declare global {
   interface Window {
@@ -90,30 +84,26 @@ export function RegisterForm() {
                 const siteKey = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"; // Fallback key from your code
 
                 // Render the reCAPTCHA widget
-                recaptchaRef.current = window.grecaptcha.render(
-                  "recaptcha-container",
-                  {
-                    sitekey: siteKey,
-                    callback: (token) => {
-                      setValue("recaptchaToken", token);
-                    },
-                    "expired-callback": () => {
-                      setValue("recaptchaToken", "");
-                    },
-                    "error-callback": () => {
-                      setError("recaptchaToken", {
-                        type: "manual",
-                        message:
-                          "reCAPTCHA verification failed. Please try again.",
-                      });
-                    },
-                  }
-                );
+                recaptchaRef.current = window.grecaptcha.render("recaptcha-container", {
+                  sitekey: siteKey,
+                  callback: (token) => {
+                    setValue("recaptchaToken", token);
+                  },
+                  "expired-callback": () => {
+                    setValue("recaptchaToken", "");
+                  },
+                  "error-callback": () => {
+                    setError("recaptchaToken", {
+                      type: "manual",
+                      message: "reCAPTCHA verification failed. Please try again.",
+                    });
+                  },
+                });
               } catch (err) {
-                console.error("Error rendering reCAPTCHA:", err);
+                toast.error("Error rendering reCAPTCHA:");
               }
             } else {
-              console.error("recaptcha-container element not found");
+              toast.error("recaptcha-container element not found");
             }
           });
         }
@@ -128,7 +118,7 @@ export function RegisterForm() {
         try {
           window.grecaptcha.reset(recaptchaRef.current);
         } catch (err) {
-          console.error("Error resetting reCAPTCHA:", err);
+          toast.error("Error resetting reCAPTCHA:");
         }
       }
     };
@@ -155,8 +145,7 @@ export function RegisterForm() {
       navigate("/verify-email");
     } catch (error) {
       // Handle specific errors
-      const errorMessage =
-        error instanceof Error ? error.message : String(error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
 
       if (errorMessage.toLowerCase().includes("captcha")) {
         setError("recaptchaToken", {
@@ -169,7 +158,7 @@ export function RegisterForm() {
           try {
             window.grecaptcha.reset(recaptchaRef.current);
           } catch (err) {
-            console.error("Error resetting reCAPTCHA:", err);
+            toast.error("Error resetting reCAPTCHA:");
           }
         }
       } else if (errorMessage.toLowerCase().includes("email")) {
@@ -185,10 +174,7 @@ export function RegisterForm() {
   const cardFooter = (
     <p className="text-center text-sm text-muted-foreground">
       Already have an account?{" "}
-      <Link
-        to="/login"
-        className="text-primary hover:text-primary/90 hover:underline underline-offset-4"
-      >
+      <Link to="/login" className="text-primary hover:text-primary/90 hover:underline underline-offset-4">
         Login
       </Link>
     </p>
@@ -206,11 +192,7 @@ export function RegisterForm() {
         withGradient={true}
         footer={cardFooter}
       >
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-6"
-          autoComplete="off"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6" autoComplete="off">
           <div className="grid grid-cols-2 gap-4">
             <Controller
               name="firstName"
@@ -277,13 +259,7 @@ export function RegisterForm() {
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
                 error={errors.password?.message}
-                rightIcon={
-                  showPassword ? (
-                    <EyeOffIcon className="h-4 w-4" />
-                  ) : (
-                    <EyeIcon className="h-4 w-4" />
-                  )
-                }
+                rightIcon={showPassword ? <EyeOffIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
                 onRightIconClick={() => setShowPassword(!showPassword)}
                 className="dark:border-[#2d2d5b] dark:bg-[#14142b]/50"
                 required
@@ -303,16 +279,8 @@ export function RegisterForm() {
                 type={showConfirmPassword ? "text" : "password"}
                 placeholder="••••••••"
                 error={errors.confirmPassword?.message}
-                rightIcon={
-                  showConfirmPassword ? (
-                    <EyeOffIcon className="h-4 w-4" />
-                  ) : (
-                    <EyeIcon className="h-4 w-4" />
-                  )
-                }
-                onRightIconClick={() =>
-                  setShowConfirmPassword(!showConfirmPassword)
-                }
+                rightIcon={showConfirmPassword ? <EyeOffIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
+                onRightIconClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 className="dark:border-[#2d2d5b] dark:bg-[#14142b]/50"
                 required
                 autoComplete="new-password"

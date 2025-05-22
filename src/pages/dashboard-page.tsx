@@ -10,11 +10,11 @@ import { Loader2 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { NotificationCard } from "@/components/dashboard/notification-card";
 import TodoList from "@/components/ui/todo-list";
-import { PomodoroTimer } from "@/components/dashboard/pomodoro-timer";
 import ProjectCardList from "@/components/dashboard/project-card";
 import { PomodoroPreview } from "@/components/dashboard/pomodoro-preview";
 import { DailyPriorities } from "@/components/dashboard/daily-priorities";
 import MoodCheck from "@/components/dashboard/mood-check";
+import { toast } from "sonner";
 
 export function DashboardPage() {
   const { user } = useAuthStore();
@@ -28,7 +28,7 @@ export function DashboardPage() {
       try {
         await Promise.all([fetchTasks(), fetchEvents(), fetchTimerStats()]);
       } catch (error) {
-        console.error("Error loading dashboard data:", error);
+        toast.error("Error loading dashboard data:");
       } finally {
         setIsLoading(false);
       }
@@ -121,9 +121,8 @@ export function DashboardPage() {
             description: "Analyse chaque étape du parcours client actuel. Objectif définir et optimiser standard qualité...",
           }}
         />
-        <ProjectCardList className="rounded-md border shadow w-full h-full" />
+        <ProjectCardList />
       </div>
-      
     </div>
   );
 }

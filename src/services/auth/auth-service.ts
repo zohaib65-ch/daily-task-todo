@@ -1,13 +1,6 @@
+import { toast } from "sonner";
 import { apiClient } from "../api/axios-client";
-import {
-  LoginRequest,
-  RegisterRequest,
-  AuthResponse,
-  User,
-  ForgotPasswordRequest,
-  ResetPasswordRequest,
-  VerifyEmailRequest,
-} from "./types";
+import { LoginRequest, RegisterRequest, AuthResponse, User, ForgotPasswordRequest, ResetPasswordRequest, VerifyEmailRequest } from "./types";
 
 class AuthService {
   private AUTH_ENDPOINT = "/auth";
@@ -20,7 +13,7 @@ class AuthService {
       try {
         this.user = JSON.parse(userData);
       } catch (error) {
-        console.error("Error parsing user data from localStorage", error);
+        toast.error("Error parsing user data from localStorage");
         localStorage.removeItem("user");
       }
     }
@@ -29,10 +22,7 @@ class AuthService {
   // Login user
   async login(credentials: LoginRequest): Promise<User> {
     try {
-      const response = await apiClient.post<AuthResponse>(
-        `${this.AUTH_ENDPOINT}/login`,
-        credentials
-      );
+      const response = await apiClient.post<AuthResponse>(`${this.AUTH_ENDPOINT}/login`, credentials);
 
       if (response.success && response.token) {
         // Store tokens and user data
@@ -46,9 +36,7 @@ class AuthService {
         throw new Error("Login failed");
       }
     } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.message ||
-        "Login failed. Please check your credentials.";
+      const errorMessage = error.response?.data?.message || "Login failed. Please check your credentials.";
       throw new Error(errorMessage);
     }
   }
@@ -56,10 +44,7 @@ class AuthService {
   // Register new user
   async register(userData: RegisterRequest): Promise<User> {
     try {
-      const response = await apiClient.post<AuthResponse>(
-        `${this.AUTH_ENDPOINT}/register`,
-        userData
-      );
+      const response = await apiClient.post<AuthResponse>(`${this.AUTH_ENDPOINT}/register`, userData);
 
       if (response.success && response.token) {
         // Store tokens and user data
@@ -73,9 +58,7 @@ class AuthService {
         throw new Error("Registration failed");
       }
     } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.message ||
-        "Registration failed. Please try again.";
+      const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";
       throw new Error(errorMessage);
     }
   }
@@ -91,7 +74,7 @@ class AuthService {
         });
       }
     } catch (error) {
-      console.error("Error during logout", error);
+      toast.error("Error during logout");
     } finally {
       // Clear local storage regardless of API response
       localStorage.removeItem("accessToken");
@@ -116,8 +99,7 @@ class AuthService {
     try {
       await apiClient.post(`${this.AUTH_ENDPOINT}/forgot-password`, data);
     } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to send password reset email.";
+      const errorMessage = error.response?.data?.message || "Failed to send password reset email.";
       throw new Error(errorMessage);
     }
   }
@@ -127,8 +109,7 @@ class AuthService {
     try {
       await apiClient.post(`${this.AUTH_ENDPOINT}/reset-password`, data);
     } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to reset password.";
+      const errorMessage = error.response?.data?.message || "Failed to reset password.";
       throw new Error(errorMessage);
     }
   }
@@ -138,8 +119,7 @@ class AuthService {
     try {
       await apiClient.post(`${this.AUTH_ENDPOINT}/verify-email`, data);
     } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to verify email.";
+      const errorMessage = error.response?.data?.message || "Failed to verify email.";
       throw new Error(errorMessage);
     }
   }
@@ -147,10 +127,7 @@ class AuthService {
   // Refresh tokens
   async refreshToken(refreshToken: string): Promise<void> {
     try {
-      const response = await apiClient.post<AuthResponse>(
-        `${this.AUTH_ENDPOINT}/refresh-token`,
-        { refreshToken }
-      );
+      const response = await apiClient.post<AuthResponse>(`${this.AUTH_ENDPOINT}/refresh-token`, { refreshToken });
 
       if (response.success && response.token) {
         localStorage.setItem("accessToken", response.token);
