@@ -96,20 +96,20 @@ export function TasksOverview() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
+      <CardHeader className="p-2">
+        <CardTitle className="flex items-center justify-between text-md">
           <span>Tasks</span>
           <span className="text-sm font-normal text-muted-foreground">
             {completedTasks} of {totalTasks} completed
           </span>
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="p-4">
           <div className="w-full h-2 bg-muted rounded-full mt-1">
             <div className="h-2 bg-primary rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
           </div>
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-2">
         {loading ? (
           <div className="flex justify-center ">
             <div className="animate-spin h-6 w-6 border-2 border-primary border-t-transparent rounded-full" />

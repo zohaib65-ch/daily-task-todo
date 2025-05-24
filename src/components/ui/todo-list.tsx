@@ -18,9 +18,8 @@ type Todo = {
 export default function TodoList() {
   const [todos, setTodos] = useState<Todo[]>([
     { id: 1, text: "Complete project proposal", completed: false },
-    { id: 2, text: "Schedule team meeting", completed: false },
-    { id: 3, text: "Buy groceries", completed: true },
-    { id: 4, text: "Review code changes", completed: false },
+     { id: 2, text: "Schedule team meeting", completed: false },
+  
   ]);
   const [input, setInput] = useState("");
 
@@ -40,19 +39,19 @@ export default function TodoList() {
 
   return (
     <Card className="w-full shadow-lg">
-      <CardHeader>
-        <CardTitle>📝 My Todo List</CardTitle>
+      <CardHeader className="p-2 text-md">
+        <CardTitle className="text-md">📝 My Todo List</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="flex space-x-2 mb-4">
+      <CardContent className="p-2 ">
+        <div className="flex space-x-2 mb-3">
           <Input placeholder="Add a new task..." value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addTodo()} />
           <Button onClick={addTodo}>Add</Button>
         </div>
-        <ScrollArea className="h-72 w-full rounded-md border p-2">
+        <ScrollArea className=" w-full rounded-md border p-2">
           <ul className="space-y-2">
             {todos.length === 0 && <p className="text-sm text-muted-foreground">No tasks yet.</p>}
             {todos.map((todo) => (
-              <li key={todo.id} className="flex items-center justify-between bg-muted p-2 rounded-lg">
+              <li key={todo.id} className="flex items-center justify-between bg-muted p-2 rounded-lg h-11">
                 <div className="flex items-center space-x-2">
                   <Checkbox checked={todo.completed} onCheckedChange={() => toggleComplete(todo.id)} />
                   <Label className={todo.completed ? "line-through text-muted-foreground" : ""}>{todo.text}</Label>

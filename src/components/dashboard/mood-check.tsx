@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@radix-ui/react-toggle-group";
 import { useState } from "react";
@@ -21,27 +21,22 @@ export default function MoodCheck() {
 
   return (
     <Card className="w-full rounded-xl">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-black dark:text-white">
-          <span>😊</span> Mood Check
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-4">
-        <p className="text-black dark:text-white">Comment tu te sens aujourd'hui?</p>
-        <ToggleGroup type="single" className="flex justify-between" onValueChange={(value) => setMood(value)}>
-          <ToggleGroupItem value="sad" className="text-2xl p-2 rounded-full data-[state=on]:border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/10">
+      <CardContent className="flex flex-col gap- p-2">
+        <CardTitle className="flex items-center gap-2 text-md pb-0 text-black dark:text-white">Mood Check</CardTitle>
+        <ToggleGroup type="single" className="flex justify-between mb-2" onValueChange={(value) => setMood(value)}>
+          <ToggleGroupItem value="sad" className="text-xl  rounded-full data-[state=on]:border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/10">
             😢
           </ToggleGroupItem>
-          <ToggleGroupItem value="neutral" className="text-2xl p-2 rounded-full data-[state=on]:border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/10">
+          <ToggleGroupItem value="neutral" className="text-xl  rounded-full data-[state=on]:border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/10">
             😐
           </ToggleGroupItem>
-          <ToggleGroupItem value="good" className="text-2xl p-2 rounded-full data-[state=on]:border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/10">
+          <ToggleGroupItem value="good" className="text-xl  rounded-full data-[state=on]:border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/10">
             😊
           </ToggleGroupItem>
-          <ToggleGroupItem value="great" className="text-2xl p-2 rounded-full data-[state=on]:border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/10">
+          <ToggleGroupItem value="great" className="text-xl  rounded-full data-[state=on]:border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/10">
             😄
           </ToggleGroupItem>
-          <ToggleGroupItem value="excellent" className="text-2xl p-2 rounded-full data-[state=on]:border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/10">
+          <ToggleGroupItem value="excellent" className="text-xl  rounded-full data-[state=on]:border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/10">
             ⭐
           </ToggleGroupItem>
         </ToggleGroup>
